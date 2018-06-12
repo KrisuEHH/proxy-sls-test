@@ -59,16 +59,22 @@ provider:
 
 functions:
   restaurants:
-    handler: handler.restaurants
+    handler: restaurantHandler.restaurants
     events:
       - http:
           path: /
           method: GET
   restaurantById:
-    handler: handler.restaurantById
+    handler: restaurantHandler.restaurantById
     events:
       - http:
           path: /{id}
+          method: GET
+  menuTodayByRestaurantId:
+    handler: restaurantHandler.menuTodayByRestaurantId
+    events:
+      - http:
+          path: /{id}/today
           method: GET
 
 #    The following are a few example events you can configure

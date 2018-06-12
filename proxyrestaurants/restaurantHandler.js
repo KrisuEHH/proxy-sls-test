@@ -26,6 +26,27 @@ function getById(event, context, callback) {
     });
 }
 
+function getByIdToday(event, context, callback) {
+  const id = event.pathParameters.id;
+  const url = `${SINGLE_URL_BASE}/${id}`;
+  axios.get(url)
+    .then(response => {
+      return response.data;
+    })
+    .then(data => {
+      return data.data;
+    })
+    .then(dayList => {
+      return dayList[new Date().getDay()];
+    })
+    .then(dayMenu => {
+      callback(null, createResponse(200, JSON.stringify(dayMenu)));
+    })
+    .catch(error => {
+      callback(new Error(error));
+    });
+}
+
 function createResponse(statusCode, body) {
   return {
     statusCode,
@@ -36,3 +57,4 @@ function createResponse(statusCode, body) {
 
 module.exports.restaurants = getAll;
 module.exports.restaurantById = getById;
+module.exports.menuTodayByRestaurantId = getByIdToday;
